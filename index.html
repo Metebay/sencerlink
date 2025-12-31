@@ -18,85 +18,89 @@
         .btn-container {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 12px;
             width: 100%;
-            max-width: 400px;
+            max-width: 450px;
         }
 
         /* Standart Buton Stili */
         .ws-button {
             display: block;
-            padding: 15px 20px;
+            padding: 18px 25px;
             text-align: center;
             text-decoration: none;
             color: white;
-            background-color: #007bff; /* Mavi - Henüz açılmamış */
-            border-radius: 8px;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
+            background-color: #007bff;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
 
         .ws-button:hover {
             background-color: #0056b3;
             transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0,0,0,0.15);
         }
 
         /* Daha önce açılmış (ziyaret edilmiş) buton stili */
         .ws-button.visited {
-            background-color: #6c757d; /* Gri - Açılmış */
-            opacity: 0.8;
+            background-color: #6c757d; /* Gri */
+            box-shadow: none;
         }
 
         .ws-button.visited::after {
-            content: " (Açıldı)";
-            font-size: 0.8em;
+            content: " ✓ (Görüldü)";
+            font-size: 0.85em;
+            margin-left: 10px;
             font-weight: normal;
         }
     </style>
 </head>
 <body>
 
-    <h2>Çalışma Kağıtları</h2>
+    <h2>Ödev Linkleri</h2>
     
     <div class="btn-container">
         <a href="https://www.liveworksheets.com/worksheet/en/english-second-language-esl/1145921" 
-           class="ws-button" id="link1" onclick="markAsVisited('link1')">Çalışma Sayfası 1</a>
+           class="ws-button" id="link1" target="_blank" rel="noopener noreferrer" onclick="markAsVisited('link1')">
+           İngilizce Çalışma Sayfası 1
+        </a>
 
         <a href="https://www.liveworksheets.com/worksheet/en/english-language/1404814" 
-           class="ws-button" id="link2" onclick="markAsVisited('link2')">Çalışma Sayfası 2</a>
+           class="ws-button" id="link2" target="_blank" rel="noopener noreferrer" onclick="markAsVisited('link2')">
+           İngilizce Çalışma Sayfası 2
+        </a>
 
         <a href="https://www.liveworksheets.com/worksheet/en/english-second-language-esl/416471" 
-           class="ws-button" id="link3" onclick="markAsVisited('link3')">Çalışma Sayfası 3</a>
+           class="ws-button" id="link3" target="_blank" rel="noopener noreferrer" onclick="markAsVisited('link3')">
+           İngilizce Çalışma Sayfası 3
+        </a>
 
         <a href="https://www.liveworksheets.com/worksheet/en/english-second-language-esl/663948" 
-           class="ws-button" id="link4" onclick="markAsVisited('link4')">Çalışma Sayfası 4</a>
+           class="ws-button" id="link4" target="_blank" rel="noopener noreferrer" onclick="markAsVisited('link4')">
+           İngilizce Çalışma Sayfası 4
+        </a>
     </div>
 
     <script>
-        // Sayfa yüklendiğinde daha önce tıklananları kontrol et
+        // Sayfa yüklendiğinde LocalStorage kontrolü
         window.onload = function() {
-            const visitedLinks = JSON.parse(localStorage.getItem('visitedWorksheets')) || [];
-            
+            const visitedLinks = JSON.parse(localStorage.getItem('openedSheets')) || [];
             visitedLinks.forEach(id => {
                 const element = document.getElementById(id);
-                if (element) {
-                    element.classList.add('visited');
-                }
+                if (element) element.classList.add('visited');
             });
         };
 
-        // Tıklandığında local storage'a kaydet
+        // Tıklama kaydedici
         function markAsVisited(id) {
-            let visitedLinks = JSON.parse(localStorage.getItem('visitedWorksheets')) || [];
-            
+            let visitedLinks = JSON.parse(localStorage.getItem('openedSheets')) || [];
             if (!visitedLinks.includes(id)) {
                 visitedLinks.push(id);
-                localStorage.setItem('visitedWorksheets', JSON.stringify(visitedLinks));
+                localStorage.setItem('openedSheets', JSON.stringify(visitedLinks));
             }
-            
-            // Görseli anında güncelle
+            // Sınıfı ekleyerek rengi anında değiştir
             document.getElementById(id).classList.add('visited');
         }
     </script>
