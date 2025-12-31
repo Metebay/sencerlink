@@ -3,42 +3,103 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dosya İndir</title>
+    <title>Çalışma Sayfaları</title>
     <style>
-        /* Sayfayı ortalamak ve arka planı yumuşatmak için */
         body {
-            font-family: sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f4f4f9;
+            gap: 15px;
+            padding: 50px;
+            background-color: #f0f2f5;
         }
 
-        /* Bağlantıyı buton formuna sokan CSS */
-        .download-btn {
-            display: inline-block;
-            padding: 12px 24px;
-            background-color: #007bff;
-            color: white;
+        .btn-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        /* Standart Buton Stili */
+        .ws-button {
+            display: block;
+            padding: 15px 20px;
+            text-align: center;
             text-decoration: none;
-            border-radius: 5px;
+            color: white;
+            background-color: #007bff; /* Mavi - Henüz açılmamış */
+            border-radius: 8px;
             font-weight: bold;
-            transition: background-color 0.3s ease;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
         }
 
-        /* Mouse ile üzerine gelindiğinde renk değişimi */
-        .download-btn:hover {
+        .ws-button:hover {
             background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+
+        /* Daha önce açılmış (ziyaret edilmiş) buton stili */
+        .ws-button.visited {
+            background-color: #6c757d; /* Gri - Açılmış */
+            opacity: 0.8;
+        }
+
+        .ws-button.visited::after {
+            content: " (Açıldı)";
+            font-size: 0.8em;
+            font-weight: normal;
         }
     </style>
 </head>
 <body>
 
-    <a href="links.txt" download="links.txt" class="download-btn">
-        links.txt Dosyasını İndir
-    </a>
+    <h2>Çalışma Kağıtları</h2>
+    
+    <div class="btn-container">
+        <a href="https://www.liveworksheets.com/worksheet/en/english-second-language-esl/1145921" 
+           class="ws-button" id="link1" onclick="markAsVisited('link1')">Çalışma Sayfası 1</a>
+
+        <a href="https://www.liveworksheets.com/worksheet/en/english-language/1404814" 
+           class="ws-button" id="link2" onclick="markAsVisited('link2')">Çalışma Sayfası 2</a>
+
+        <a href="https://www.liveworksheets.com/worksheet/en/english-second-language-esl/416471" 
+           class="ws-button" id="link3" onclick="markAsVisited('link3')">Çalışma Sayfası 3</a>
+
+        <a href="https://www.liveworksheets.com/worksheet/en/english-second-language-esl/663948" 
+           class="ws-button" id="link4" onclick="markAsVisited('link4')">Çalışma Sayfası 4</a>
+    </div>
+
+    <script>
+        // Sayfa yüklendiğinde daha önce tıklananları kontrol et
+        window.onload = function() {
+            const visitedLinks = JSON.parse(localStorage.getItem('visitedWorksheets')) || [];
+            
+            visitedLinks.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.classList.add('visited');
+                }
+            });
+        };
+
+        // Tıklandığında local storage'a kaydet
+        function markAsVisited(id) {
+            let visitedLinks = JSON.parse(localStorage.getItem('visitedWorksheets')) || [];
+            
+            if (!visitedLinks.includes(id)) {
+                visitedLinks.push(id);
+                localStorage.setItem('visitedWorksheets', JSON.stringify(visitedLinks));
+            }
+            
+            // Görseli anında güncelle
+            document.getElementById(id).classList.add('visited');
+        }
+    </script>
 
 </body>
 </html>
